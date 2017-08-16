@@ -169,13 +169,13 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     return value
   }
   const isArr = Array.isArray(value)
+  const tag = getTag(value)
   if (isArr) {
     result = initCloneArray(value)
     if (!isDeep) {
       return copyArray(value, result)
     }
   } else {
-    const tag = getTag(value)
     const isFunc = typeof value == 'function'
 
     if (isBuffer(value)) {
@@ -211,7 +211,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
   }
 
   if (tag == setTag) {
-    value.forEach(subValue => {
+    value.forEach((subValue) => {
       result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack))
     })
     return result
